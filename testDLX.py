@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
 
-import os
+import DLX
 
-try:
-    import DLX
-except ImportError:
-    os.system("sh make.sh")
-    import DLX
 l = open('Hardest.txt', 'r').readlines()
 T_sum = 0
 for i, mat in enumerate(l):

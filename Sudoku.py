@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import DLX
 from tkinter import *
 import tkinter.font as tf
 import pickle
@@ -20,7 +21,7 @@ class Panel:
         self.elements = [0] * 81
         self.conflicts = []
         self.box = []
-        self.cache = 'cache'
+        self.record = 'record'
         self.color_dict = {0: 'black', 1: 'red', 2: 'green', 3: 'blue', 4: 'white', 5: 'purple', 6: 'orange'}
         self.operations = {'a': 1, 'd': 3, 'w': 4, 's': 5, 'x': 2, 'space': 1, 'Return': 1, 'BackSpace': 3, 'Delete': 3}
         self.buttons = {'P': lambda: self.setmode(1),
@@ -177,15 +178,15 @@ class Panel:
         return 1
 
     def save(self):
-        with open(self.cache, 'wb') as f:
+        with open(self.record, 'wb') as f:
             pickle.dump((self.history, self.future), f)
         self.quit()
 
     def load(self):
-        if not os.path.isfile(self.cache):
-            with open(self.cache, 'wb') as f:
+        if not os.path.isfile(self.record):
+            with open(self.record, 'wb') as f:
                 pickle.dump((self.history, self.future), f)
-        with open(self.cache, 'rb') as f:
+        with open(self.record, 'rb') as f:
             try:
                 (self.history, self.future) = pickle.load(f)
                 self.matrix = self.history[-1][0].copy()
@@ -446,12 +447,6 @@ class Panel:
         self.mode = 1
         self.current_num = 1
 
-
-try:
-    import DLX
-except ImportError:
-    os.system("sh make.sh")
-    import DLX
 
 root = Tk()
 
